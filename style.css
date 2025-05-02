@@ -1,0 +1,502 @@
+/* --- Global Styles & Base --- */
+body {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* --- Boot Screen Styles --- */
+#boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+#boot-screen img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+/* --- Main Content Styling (Centering) --- */
+#main-content {
+    display: flex; /* Ensures flex properties apply */
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    width: 100%;
+    min-height: 100vh; /* Ensure it takes full height */
+    opacity: 0; 
+    transition: opacity 0.5s ease-in;
+    padding: 20px; /* Add some padding */
+    box-sizing: border-box;
+}
+
+/* --- Radio Container --- */
+.radio-container {
+    transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, padding 0.3s ease-in-out; /* Added height/padding transition */
+    opacity: 1;
+    padding: 25px;
+    padding-top: 40px; /* Extra padding at top for window controls */
+    width: 360px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.radio-container.fade-out {
+    opacity: 0;
+}
+
+.radio-container.fade-in {
+    opacity: 1;
+}
+
+/* Minimized State */
+.radio-container.minimized {
+    height: 40px; /* Adjust height when minimized */
+    padding: 5px 10px; /* Adjust padding */
+    overflow: hidden;
+    /* Optionally add a title bar effect */
+}
+
+/* --- Window Controls --- */
+.window-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 3px;
+    z-index: 10; /* Above player UI */
+}
+
+.window-controls button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgba(200, 200, 200, 0.5);
+    padding: 0;
+    margin: 0;
+    width: 26px;
+    height: 20px;
+    font-family: 'Segoe UI Symbol', 'Arial Unicode MS', sans-serif; /* Font for symbols */
+    font-size: 14px;
+    line-height: 20px; /* Center symbol vertically */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* --- Corner GIF Styles --- */
+#corner-gif {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 80px;
+    height: auto;
+    z-index: 900;
+    opacity: 0.85;
+}
+
+
+/* --- Light Theme Styles --- */
+body.light-theme {
+    background-image: url('backgrounds/light_bg.jpg');
+}
+
+.light-theme .radio-container {
+    background: linear-gradient(135deg, rgba(200, 230, 255, 0.75) 0%, rgba(150, 200, 255, 0.85) 100%);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.light-theme .radio-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 18px 18px 0 0;
+    pointer-events: none;
+}
+
+/* Light Theme Window Controls */
+.light-theme .window-controls button {
+    border-color: rgba(100, 150, 220, 0.5);
+    background-color: rgba(210, 230, 255, 0.6);
+    color: #003366;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.light-theme .window-controls button:hover {
+    background-color: rgba(176, 218, 255, 0.8); /* Lighter blue hover */
+    border-color: rgba(80, 130, 200, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 0 8px rgba(135, 206, 250, 0.7); /* Blue glow */
+}
+
+.light-theme .window-controls button:active {
+    background-color: rgba(150, 200, 255, 0.7);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .thumbnail-area {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.light-theme .metadata-area {
+    color: #003366;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.light-theme #artist-channel {
+    color: #005a9e;
+}
+
+.light-theme .controls-area button {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.8) 50%, rgba(200, 225, 255, 0.9) 51%, rgba(180, 215, 255, 1) 100%);
+    border: 1px solid rgba(100, 150, 220, 0.5);
+    border-top-color: rgba(255, 255, 255, 0.7);
+    border-bottom-color: rgba(50, 100, 180, 0.4);
+    color: #003366;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.light-theme .controls-area button:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(230, 240, 255, 0.9) 50%, rgba(210, 230, 255, 1) 51%, rgba(190, 220, 255, 1) 100%);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.light-theme .controls-area button:active {
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.8) 50%, rgba(200, 225, 255, 0.9) 51%, rgba(180, 215, 255, 1) 100%);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.light-theme #volume-slider {
+    background: linear-gradient(to right, #a8d8ff, #cfe7ff);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(100, 150, 200, 0.3);
+}
+
+.light-theme #volume-slider::-webkit-slider-thumb {
+    background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 1) 0%, rgba(220, 235, 255, 0.9) 60%, rgba(180, 215, 255, 0.8) 100%);
+    border: 1px solid rgba(100, 150, 200, 0.6);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.light-theme #volume-slider::-moz-range-thumb {
+    background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 1) 0%, rgba(220, 235, 255, 0.9) 60%, rgba(180, 215, 255, 0.8) 100%);
+    border: 1px solid rgba(100, 150, 200, 0.6);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.light-theme #theme-toggle-button {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.8) 50%, rgba(200, 225, 255, 0.9) 51%, rgba(180, 215, 255, 1) 100%);
+    border: 1px solid rgba(100, 150, 220, 0.5);
+    border-top-color: rgba(255, 255, 255, 0.7);
+    border-bottom-color: rgba(50, 100, 180, 0.4);
+    color: #003366;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.light-theme #theme-toggle-button:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(230, 240, 255, 0.9) 50%, rgba(210, 230, 255, 1) 51%, rgba(190, 220, 255, 1) 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.light-theme #theme-toggle-button:active {
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.8) 50%, rgba(200, 225, 255, 0.9) 51%, rgba(180, 215, 255, 1) 100%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Dark Theme Styles --- */
+body.dark-theme {
+    background-image: url('backgrounds/dark_bg.webp');
+}
+
+.dark-theme .radio-container {
+    background: linear-gradient(135deg, rgba(30, 35, 45, 0.85) 0%, rgba(10, 15, 25, 0.9) 100%);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dark-theme .radio-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 18px 18px 0 0;
+    pointer-events: none;
+}
+
+/* Dark Theme Window Controls */
+.dark-theme .window-controls button {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(50, 60, 80, 0.7);
+    color: #e0e0e0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.dark-theme .window-controls button:hover {
+    background-color: rgba(80, 90, 110, 0.8); /* Lighter grey hover */
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 8px rgba(173, 216, 230, 0.6); /* Light blue glow */
+}
+
+.dark-theme .window-controls button:active {
+    background-color: rgba(40, 50, 70, 0.7);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .thumbnail-area {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .metadata-area {
+    color: #e8f0f8;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.dark-theme #artist-channel {
+    color: #a0c0e0;
+}
+
+.dark-theme .controls-area button {
+    background: linear-gradient(to bottom, rgba(80, 90, 110, 0.8) 0%, rgba(40, 50, 70, 0.8) 50%, rgba(30, 40, 60, 0.9) 51%, rgba(20, 30, 50, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.4);
+    color: #e8f0f8;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .controls-area button:hover {
+    background: linear-gradient(to bottom, rgba(90, 100, 120, 0.85) 0%, rgba(50, 60, 80, 0.85) 50%, rgba(40, 50, 70, 0.95) 51%, rgba(30, 40, 60, 1) 100%);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme .controls-area button:active {
+    background: linear-gradient(to top, rgba(80, 90, 110, 0.8) 0%, rgba(40, 50, 70, 0.8) 50%, rgba(30, 40, 60, 0.9) 51%, rgba(20, 30, 50, 0.95) 100%);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme #volume-slider {
+    background: linear-gradient(to right, #3a4a60, #2a3a50);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme #volume-slider::-webkit-slider-thumb {
+    background: radial-gradient(circle at 50% 40%, rgba(220, 235, 255, 1) 0%, rgba(180, 210, 240, 0.9) 60%, rgba(150, 190, 230, 0.8) 100%);
+    border: 1px solid rgba(100, 130, 180, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.dark-theme #volume-slider::-moz-range-thumb {
+    background: radial-gradient(circle at 50% 40%, rgba(220, 235, 255, 1) 0%, rgba(180, 210, 240, 0.9) 60%, rgba(150, 190, 230, 0.8) 100%);
+    border: 1px solid rgba(100, 130, 180, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.dark-theme #theme-toggle-button {
+    background: linear-gradient(to bottom, rgba(80, 90, 110, 0.8) 0%, rgba(40, 50, 70, 0.8) 50%, rgba(30, 40, 60, 0.9) 51%, rgba(20, 30, 50, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.4);
+    color: #e8f0f8;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme #theme-toggle-button:hover {
+    background: linear-gradient(to bottom, rgba(90, 100, 120, 0.85) 0%, rgba(50, 60, 80, 0.85) 50%, rgba(40, 50, 70, 0.95) 51%, rgba(30, 40, 60, 1) 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme #theme-toggle-button:active {
+    background: linear-gradient(to top, rgba(80, 90, 110, 0.8) 0%, rgba(40, 50, 70, 0.8) 50%, rgba(30, 40, 60, 0.9) 51%, rgba(20, 30, 50, 0.95) 100%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Common Styles (Apply to both themes) --- */
+
+.player-ui {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.3s ease-in-out; /* Add transition for minimize */
+}
+
+.thumbnail-area {
+    width: 300px;
+    height: 170px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    display: block;
+}
+
+.metadata-area {
+    text-align: center;
+    width: 100%;
+}
+
+#track-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#artist-channel {
+    font-size: 0.95em;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.controls-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+}
+
+.controls-area button {
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 600;
+}
+
+.controls-area button:hover {
+    transform: translateY(-1px);
+}
+
+.controls-area button:active {
+    transform: translateY(1px);
+}
+
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 120px;
+    height: 10px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none; /* Required for Firefox */
+}
+
+#theme-toggle-button {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-weight: 600;
+    position: relative;
+    z-index: 10;
+}
+
+#theme-toggle-button:hover {
+    transform: translateY(-1px);
+}
+
+#theme-toggle-button:active {
+    transform: translateY(1px);
+}
+
+#youtube-player {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutiger Aero Radio</title>
+    <link id="theme-style" rel="stylesheet" href="style.css">
+</head>
+<!-- Start with light theme, JS will manage -->
+<body class="light-theme">
+
+    <!-- Boot Screen -->
+    <div id="boot-screen">
+        <img src="assets/boot.gif" alt="Booting...">
+    </div>
+
+    <!-- Main Radio Content (Initially Hidden) -->
+    <div id="main-content" style="display: none;">
+        <!-- Player container - will be centered by body flexbox -->
+        <div class="radio-container">
+            <!-- Window Controls -->
+            <div class="window-controls">
+                <button id="minimize-button" aria-label="Minimize">_</button>
+                <!-- Using a single button for toggle size for simplicity -->
+                <button id="resize-button" aria-label="Toggle Size">□</button> 
+                <!-- No close button needed for web context -->
+            </div>
+            <div class="player-ui">
+                <div class="thumbnail-area">
+                    <img id="thumbnail" src="" alt="Track thumbnail">
+                </div>
+                <div class="metadata-area">
+                    <p id="track-title">Loading...</p>
+                    <p id="artist-channel">...</p>
+                </div>
+                <div class="controls-area">
+                    <button id="play-pause-button">Play</button>
+                    <button id="skip-button">Skip</button>
+                    <input type="range" id="volume-slider" min="0" max="100" value="50">
+                </div>
+            </div>
+            <!-- YouTube player embed (hidden) -->
+            <div id="youtube-player"></div>
+        </div>
+
+        <!-- Theme toggle button -->
+        <button id="theme-toggle-button">Dark Theme</button>
+
+        <!-- Corner GIF -->
+        <img id="corner-gif" src="assets/corner.gif" alt="Animation">
+
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
